@@ -10,33 +10,92 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CaregiverRouteImport } from './routes/caregiver'
+import { Route as ElderRouteImport } from './routes/elder'
+import { Route as ElderIndexRouteImport } from './routes/elder.index'
+import { Route as ElderGamesRouteImport } from './routes/elder.games'
+import { Route as ElderRemindersRouteImport } from './routes/elder.reminders'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CaregiverRoute = CaregiverRouteImport.update({
+  id: '/caregiver',
+  path: '/caregiver',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ElderRoute = ElderRouteImport.update({
+  id: '/elder',
+  path: '/elder',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ElderIndexRoute = ElderIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => ElderRoute,
+} as any)
+const ElderGamesRoute = ElderGamesRouteImport.update({
+  id: '/games',
+  path: '/games',
+  getParentRoute: () => ElderRoute,
+} as any)
+const ElderRemindersRoute = ElderRemindersRouteImport.update({
+  id: '/reminders',
+  path: '/reminders',
+  getParentRoute: () => ElderRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/caregiver': typeof CaregiverRoute
+  '/elder': typeof ElderRouteWithChildren
+  '/elder/games': typeof ElderGamesRoute
+  '/elder/reminders': typeof ElderRemindersRoute
+  '/elder/': typeof ElderIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/caregiver': typeof CaregiverRoute
+  '/elder/games': typeof ElderGamesRoute
+  '/elder/reminders': typeof ElderRemindersRoute
+  '/elder': typeof ElderIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/caregiver': typeof CaregiverRoute
+  '/elder': typeof ElderRouteWithChildren
+  '/elder/games': typeof ElderGamesRoute
+  '/elder/reminders': typeof ElderRemindersRoute
+  '/elder/': typeof ElderIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/caregiver'
+    | '/elder'
+    | '/elder/games'
+    | '/elder/reminders'
+    | '/elder/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/caregiver' | '/elder/games' | '/elder/reminders' | '/elder'
+  id:
+    | '__root__'
+    | '/'
+    | '/caregiver'
+    | '/elder'
+    | '/elder/games'
+    | '/elder/reminders'
+    | '/elder/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CaregiverRoute: typeof CaregiverRoute
+  ElderRoute: typeof ElderRouteWithChildren
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +107,62 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/caregiver': {
+      id: '/caregiver'
+      path: '/caregiver'
+      fullPath: '/caregiver'
+      preLoaderRoute: typeof CaregiverRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/elder': {
+      id: '/elder'
+      path: '/elder'
+      fullPath: '/elder'
+      preLoaderRoute: typeof ElderRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/elder/': {
+      id: '/elder/'
+      path: '/'
+      fullPath: '/elder/'
+      preLoaderRoute: typeof ElderIndexRouteImport
+      parentRoute: typeof ElderRoute
+    }
+    '/elder/games': {
+      id: '/elder/games'
+      path: '/games'
+      fullPath: '/elder/games'
+      preLoaderRoute: typeof ElderGamesRouteImport
+      parentRoute: typeof ElderRoute
+    }
+    '/elder/reminders': {
+      id: '/elder/reminders'
+      path: '/reminders'
+      fullPath: '/elder/reminders'
+      preLoaderRoute: typeof ElderRemindersRouteImport
+      parentRoute: typeof ElderRoute
+    }
   }
 }
 
+interface ElderRouteChildren {
+  ElderGamesRoute: typeof ElderGamesRoute
+  ElderRemindersRoute: typeof ElderRemindersRoute
+  ElderIndexRoute: typeof ElderIndexRoute
+}
+
+const ElderRouteChildren: ElderRouteChildren = {
+  ElderGamesRoute: ElderGamesRoute,
+  ElderRemindersRoute: ElderRemindersRoute,
+  ElderIndexRoute: ElderIndexRoute,
+}
+
+const ElderRouteWithChildren = ElderRoute._addFileChildren(ElderRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CaregiverRoute: CaregiverRoute,
+  ElderRoute: ElderRouteWithChildren,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
