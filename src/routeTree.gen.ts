@@ -12,8 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as CaregiverRouteImport } from './routes/caregiver'
 import { Route as ElderRouteImport } from './routes/elder'
+import { Route as CaregiverIndexRouteImport } from './routes/caregiver.index'
+import { Route as CaregiverCareCircleRouteImport } from './routes/caregiver.care-circle'
+import { Route as CaregiverInsightsRouteImport } from './routes/caregiver.insights'
+import { Route as CaregiverProgressRouteImport } from './routes/caregiver.progress'
 import { Route as ElderIndexRouteImport } from './routes/elder.index'
 import { Route as ElderGamesRouteImport } from './routes/elder.games'
+import { Route as ElderProgressRouteImport } from './routes/elder.progress'
 import { Route as ElderRemindersRouteImport } from './routes/elder.reminders'
 
 const IndexRoute = IndexRouteImport.update({
@@ -31,6 +36,26 @@ const ElderRoute = ElderRouteImport.update({
   path: '/elder',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CaregiverIndexRoute = CaregiverIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => CaregiverRoute,
+} as any)
+const CaregiverCareCircleRoute = CaregiverCareCircleRouteImport.update({
+  id: '/care-circle',
+  path: '/care-circle',
+  getParentRoute: () => CaregiverRoute,
+} as any)
+const CaregiverInsightsRoute = CaregiverInsightsRouteImport.update({
+  id: '/insights',
+  path: '/insights',
+  getParentRoute: () => CaregiverRoute,
+} as any)
+const CaregiverProgressRoute = CaregiverProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => CaregiverRoute,
+} as any)
 const ElderIndexRoute = ElderIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -41,6 +66,11 @@ const ElderGamesRoute = ElderGamesRouteImport.update({
   path: '/games',
   getParentRoute: () => ElderRoute,
 } as any)
+const ElderProgressRoute = ElderProgressRouteImport.update({
+  id: '/progress',
+  path: '/progress',
+  getParentRoute: () => ElderRoute,
+} as any)
 const ElderRemindersRoute = ElderRemindersRouteImport.update({
   id: '/reminders',
   path: '/reminders',
@@ -49,26 +79,40 @@ const ElderRemindersRoute = ElderRemindersRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/caregiver': typeof CaregiverRoute
+  '/caregiver': typeof CaregiverRouteWithChildren
   '/elder': typeof ElderRouteWithChildren
+  '/caregiver/care-circle': typeof CaregiverCareCircleRoute
+  '/caregiver/insights': typeof CaregiverInsightsRoute
+  '/caregiver/progress': typeof CaregiverProgressRoute
   '/elder/games': typeof ElderGamesRoute
+  '/elder/progress': typeof ElderProgressRoute
   '/elder/reminders': typeof ElderRemindersRoute
+  '/caregiver/': typeof CaregiverIndexRoute
   '/elder/': typeof ElderIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/caregiver': typeof CaregiverRoute
+  '/caregiver/care-circle': typeof CaregiverCareCircleRoute
+  '/caregiver/insights': typeof CaregiverInsightsRoute
+  '/caregiver/progress': typeof CaregiverProgressRoute
   '/elder/games': typeof ElderGamesRoute
+  '/elder/progress': typeof ElderProgressRoute
   '/elder/reminders': typeof ElderRemindersRoute
+  '/caregiver': typeof CaregiverIndexRoute
   '/elder': typeof ElderIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
-  '/caregiver': typeof CaregiverRoute
+  '/caregiver': typeof CaregiverRouteWithChildren
   '/elder': typeof ElderRouteWithChildren
+  '/caregiver/care-circle': typeof CaregiverCareCircleRoute
+  '/caregiver/insights': typeof CaregiverInsightsRoute
+  '/caregiver/progress': typeof CaregiverProgressRoute
   '/elder/games': typeof ElderGamesRoute
+  '/elder/progress': typeof ElderProgressRoute
   '/elder/reminders': typeof ElderRemindersRoute
+  '/caregiver/': typeof CaregiverIndexRoute
   '/elder/': typeof ElderIndexRoute
 }
 export interface FileRouteTypes {
@@ -77,24 +121,43 @@ export interface FileRouteTypes {
     | '/'
     | '/caregiver'
     | '/elder'
+    | '/caregiver/care-circle'
+    | '/caregiver/insights'
+    | '/caregiver/progress'
     | '/elder/games'
+    | '/elder/progress'
     | '/elder/reminders'
+    | '/caregiver/'
     | '/elder/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/caregiver' | '/elder/games' | '/elder/reminders' | '/elder'
+  to:
+    | '/'
+    | '/caregiver/care-circle'
+    | '/caregiver/insights'
+    | '/caregiver/progress'
+    | '/elder/games'
+    | '/elder/progress'
+    | '/elder/reminders'
+    | '/caregiver'
+    | '/elder'
   id:
     | '__root__'
     | '/'
     | '/caregiver'
     | '/elder'
+    | '/caregiver/care-circle'
+    | '/caregiver/insights'
+    | '/caregiver/progress'
     | '/elder/games'
+    | '/elder/progress'
     | '/elder/reminders'
+    | '/caregiver/'
     | '/elder/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
-  CaregiverRoute: typeof CaregiverRoute
+  CaregiverRoute: typeof CaregiverRouteWithChildren
   ElderRoute: typeof ElderRouteWithChildren
 }
 
@@ -121,6 +184,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ElderRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/caregiver/': {
+      id: '/caregiver/'
+      path: '/'
+      fullPath: '/caregiver/'
+      preLoaderRoute: typeof CaregiverIndexRouteImport
+      parentRoute: typeof CaregiverRoute
+    }
+    '/caregiver/care-circle': {
+      id: '/caregiver/care-circle'
+      path: '/care-circle'
+      fullPath: '/caregiver/care-circle'
+      preLoaderRoute: typeof CaregiverCareCircleRouteImport
+      parentRoute: typeof CaregiverRoute
+    }
+    '/caregiver/insights': {
+      id: '/caregiver/insights'
+      path: '/insights'
+      fullPath: '/caregiver/insights'
+      preLoaderRoute: typeof CaregiverInsightsRouteImport
+      parentRoute: typeof CaregiverRoute
+    }
+    '/caregiver/progress': {
+      id: '/caregiver/progress'
+      path: '/progress'
+      fullPath: '/caregiver/progress'
+      preLoaderRoute: typeof CaregiverProgressRouteImport
+      parentRoute: typeof CaregiverRoute
+    }
     '/elder/': {
       id: '/elder/'
       path: '/'
@@ -135,6 +226,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ElderGamesRouteImport
       parentRoute: typeof ElderRoute
     }
+    '/elder/progress': {
+      id: '/elder/progress'
+      path: '/progress'
+      fullPath: '/elder/progress'
+      preLoaderRoute: typeof ElderProgressRouteImport
+      parentRoute: typeof ElderRoute
+    }
     '/elder/reminders': {
       id: '/elder/reminders'
       path: '/reminders'
@@ -145,14 +243,34 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface CaregiverRouteChildren {
+  CaregiverCareCircleRoute: typeof CaregiverCareCircleRoute
+  CaregiverInsightsRoute: typeof CaregiverInsightsRoute
+  CaregiverProgressRoute: typeof CaregiverProgressRoute
+  CaregiverIndexRoute: typeof CaregiverIndexRoute
+}
+
+const CaregiverRouteChildren: CaregiverRouteChildren = {
+  CaregiverCareCircleRoute: CaregiverCareCircleRoute,
+  CaregiverInsightsRoute: CaregiverInsightsRoute,
+  CaregiverProgressRoute: CaregiverProgressRoute,
+  CaregiverIndexRoute: CaregiverIndexRoute,
+}
+
+const CaregiverRouteWithChildren = CaregiverRoute._addFileChildren(
+  CaregiverRouteChildren,
+)
+
 interface ElderRouteChildren {
   ElderGamesRoute: typeof ElderGamesRoute
+  ElderProgressRoute: typeof ElderProgressRoute
   ElderRemindersRoute: typeof ElderRemindersRoute
   ElderIndexRoute: typeof ElderIndexRoute
 }
 
 const ElderRouteChildren: ElderRouteChildren = {
   ElderGamesRoute: ElderGamesRoute,
+  ElderProgressRoute: ElderProgressRoute,
   ElderRemindersRoute: ElderRemindersRoute,
   ElderIndexRoute: ElderIndexRoute,
 }
@@ -161,7 +279,7 @@ const ElderRouteWithChildren = ElderRoute._addFileChildren(ElderRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
-  CaregiverRoute: CaregiverRoute,
+  CaregiverRoute: CaregiverRouteWithChildren,
   ElderRoute: ElderRouteWithChildren,
 }
 export const routeTree = rootRouteImport
