@@ -1,7 +1,33 @@
 # EverBright AI
 
- working MVP foundation for SIH26003 exactly as specified: a polished, scalable, unified AI-powered cognitive gaming and memory assistance platform for elderly users and caregivers. This is the master application, not a separate prototype. Establish shared data structures, reusable accessible design system, fully functional role-based navigation, realistic Ravi Kumar demo data, excellent elderly dashboard, caregiver dashboard/insights foundation, and progress foundation. Keep modules logically separated and integration-ready for teammates; use mock/local data where needed. QA all routes, controls, responsive layouts, accessibility, and runtime errors before finishing.
+ # Everbright 🧠
 
+**An AI-powered cognitive gaming and memory assistance platform for elderly users and caregivers.**
+
+Developed as part of **Smart India Hackathon 2026 – SIH26003**.
+
+### Overview
+Everbright aims to make cognitive engagement accessible through interactive memory games, elderly-friendly dashboards, and caregiver insights.
+
+### Core Features
+- Elderly-friendly dashboard and navigation
+- Cognitive gaming foundation
+- Caregiver dashboard and insights
+- User progress tracking
+- Role-based experiences
+- Modular, integration-ready architecture
+
+### Project Status
+🚧 **MVP Prototype in Development**
+
+Currently establishing the core platform, dashboards, navigation, and shared data structures. Some functionality uses mock/local data.
+
+### Vision
+Building an accessible and scalable platform that supports cognitive engagement and helps caregivers stay informed.
+
+---
+
+*Built with a focus on accessibility, usability, and meaningful impact.*
 This project was built with [Lovable](https://lovable.dev).
 
 ## Build with Lovable
